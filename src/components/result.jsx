@@ -1,28 +1,29 @@
-import React, { useContext } from "react";
-import { QuizContext } from "../context/quiz-context";
-
-const Result = () => {
-  const { quizData, userAnswers, resetQuiz } = useContext(QuizContext);
-
-  
-  const score = quizData.reduce((acc, question, index) => {
-    if (userAnswers[index] === question.answer) {
-      return acc + 1;
+ function Results({questionBank, userAnswers, restartQuiz})
+{
+    function getScore(){
+        let finalScore = 0;
+        userAnswers.forEach((answer, index) => {
+            if(answer === questionBank[index].answer){
+                finalScore ++
+            }
+        })
+        return finalScore;
     }
-    return acc;
-  }, 0);
+    const score = getScore()
 
-  return (
-    <div>
-      <h2>Quiz Completed!</h2>
-      <p className="score">
-        Your Score: {score} / {quizData.length}
-      </p>
-      <button className="restart-button" onClick={resetQuiz}>
-        Restart Quiz
-      </button>
-    </div>
-  );
-};
+    return (
+        <div>
+            <h2> Quiz Completed!</h2>
+            <p>
+                {" "}
+                Your Score: {score}/{questionBank.length}{" "}
+            </p> 
+            <button className = "restart-button" onClick={restartQuiz}>
+                {" "}
+                Restart Quiz
+            </button>
+        </div>
+    );
+}
 
-export default Result;
+export default Results;
